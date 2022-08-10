@@ -140,59 +140,65 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
                     else if (input.startsWith(prefix)){
                         if (stat == 'away'){
                             api.getThreadInfo(event.threadID, (err, data) => {
-        if(data.isGroup){
-            api.sendMesssage("Hellon\n-Kenbot", event.threadID, event.messageID);
-        } 
-        else {
-            api.sendMesssage("Vip is currently busy", event.threadID, event.messageID);
-        }
-    })
+                                if(data.isGroup){
+                                    api.sendMesssage("Hellon\n-Kenbot", event.threadID, event.messageID);
+                                } 
+                                else {
+                                    api.sendMesssage("Vip is currently busy", event.threadID, event.messageID);
+                                }
+                            })
                         } else {
                             if (input.toLowerCase().startsWith(prefix + "status")){
-                            status.body = "🛠️🤖 KenBot Status 🤖🛠️\n",
-                            status.body += `🔰Message Reaction: ${reaction}`
-                            api.sendMessage(status, event.threadID)
-                        } 
-                        else if (input.toLowerCase().startsWith(prefix + "wiki")){
-                            if (wiki == on) {
-                                if (wiki == 'cooldown'){console.log('Cooldown')} else {let ai = input.substring(6);
-                                    let data  = input.split(" ");
-                                    if (data.length == 1){
-                                        api.sendMessage("Invalid Query", event.threadID);
-                                    } else {
-                                        console.log(ai)
-                                        axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${ai}`).then((response) => {console.log(response)
-                                        if (response === 'undefined' || response.title === 'undefined'){
-                                            api.sendMessage(`⚠️ Wikipedia did not find the word: '${ai}'`, event.threadID, event.messageID)
+                                status.body = "🛠️🤖 KenBot Status 🤖🛠️\n",
+                                status.body += `🔰Message Reaction: ${reaction}`
+                                api.sendMessage(status, event.threadID)
+                            } 
+                            else if (input.toLowerCase().startsWith(prefix + "wiki")){
+                                if (wiki == on) {
+                                    if (wiki == 'cooldown'){console.log('Cooldown')} else {let ai = input.substring(6);
+                                        let data  = input.split(" ");
+                                        if (data.length == 1){
+                                            api.sendMessage("Invalid Query", event.threadID);
                                         } else {
-                                            let info = response.data.extract
-                                            console.log(response.data.extract)
-                                            let definition = `📖 Definition of '${response.data.title || ai}':\n\n`;
-                                            definition += `💡 Timestamp: \n  ${response.data.timestamp}\n\n`;
-                                            definition += `💡 Desription: \n  ${response.data.description}\n\n`;
-                                            definition += `💡 Info: \n  ${info}\n\n`;
-                                            definition += 'Source: https://en.wikipedia.org';
-                                            let hasImage = (response.data.originalimage !== undefined) && (response.data.originalimage.source !== undefined);
-                                            let msg = {body: definition}
-                                            api.sendMessage(msg, event.threadID)
-                                            wiki = "cooldown"
-                                            setTimeout(() => {
-                                                wiki = on
-                                              }, "30000")
-                                            }
-                                        })
-                                        .catch((error) => {
-                                            api.sendMessage(`${error}`, event.threadID, event.messageID);
-                                        })
-                                    }}
-                            }
-                            else if (wiki == off) {
-                                console.log('Someone is trying to use wiki while disabled')
+                                            console.log(ai)
+                                            axios.get(`https://en.wikipedia.org/api/rest_v1/page/summary/${ai}`).then((response) => {console.log(response)
+                                            if (response === 'undefined' || response.title === 'undefined'){
+                                                api.sendMessage(`⚠️ Wikipedia did not find the word: '${ai}'`, event.threadID, event.messageID)
+                                            } else {
+                                                let info = response.data.extract
+                                                console.log(response.data.extract)
+                                                let definition = `📖 Definition of '${response.data.title || ai}':\n\n`;
+                                                definition += `💡 Timestamp: \n  ${response.data.timestamp}\n\n`;
+                                                definition += `💡 Desription: \n  ${response.data.description}\n\n`;
+                                                definition += `💡 Info: \n  ${info}\n\n`;
+                                                definition += 'Source: https://en.wikipedia.org';
+                                                let hasImage = (response.data.originalimage !== undefined) && (response.data.originalimage.source !== undefined);
+                                                let msg = {body: definition}
+                                                api.sendMessage(msg, event.threadID)
+                                                wiki = "cooldown"
+                                                setTimeout(() => {
+                                                    wiki = on
+                                                  }, "30000")
+                                                }
+                                            })
+                                            .catch((error) => {
+                                                api.sendMessage(`${error}`, event.threadID, event.messageID);
+                                            })
+                                        }}
+                                }
+                                else if (wiki == off) {
+                                    console.log('Someone is trying to use wiki while disabled')
+                                }
+                            } else {
+                                api.sendMessage("Unknown Command.", event.threadID, event.messageID);
                             }
                         }
-                            
-                    
+                    }
                 }
+                           
+                    
+                    
+                
                 break;
             case "message_unsend":
                 if (!vips.includes(event.senderID)) {
