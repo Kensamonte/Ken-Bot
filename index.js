@@ -22,7 +22,7 @@ let off = "🔴";
 let on = "🟢";
 let reaction = off;
 let wiki = on;
-login({ appState: JSON.parse(process.env['state']) }, (err, api) => {
+login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
     if (err) return console.error(err);
     api.setOptions({ listenEvents: true, selfListen: true});
     cron.schedule('0 7 * * MON-FRI', ()=>{
