@@ -195,9 +195,6 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
                         }
                     }
                 }
-                           
-                    
-                    
                 
                 break;
             case "message_unsend":
