@@ -25,7 +25,7 @@ let wiki = on;
 login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
     if (err) return console.error(err);
     api.setOptions({ listenEvents: true, selfListen: true});
-    cron.schedule('0 7 * * MON-FRI', ()=>{
+    cron.schedule('50 22 * * MON-FRI', ()=>{
         api.sendMessage("Goodmorning have a nice day.\n\n-KenBot", vips)
     },{
         scheduled: true,
