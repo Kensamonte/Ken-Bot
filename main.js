@@ -37,8 +37,8 @@ login({ appState: JSON.parse(process.env['state']) }, (err, api) => {
         scheduled: true,
         timezone: "Asia/Manila"
     })
-    //api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '24532681893043609');
-    //api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '5120904847995697');
+    api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '24532681893043609');
+    api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '5120904847995697');
     let bot_id = api.getCurrentUserID();
     console.log("Bot is now online...")
 
