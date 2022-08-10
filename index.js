@@ -22,11 +22,12 @@ let off = "🔴";
 let on = "🟢";
 let reaction = off;
 let wiki = on;
+let stat = 'normal';
 login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
     if (err) return console.error(err);
     api.setOptions({ listenEvents: true, selfListen: true});
-    cron.schedule('50 22 * * MON-FRI', ()=>{
-        api.sendMessage("Goodmorning have a nice day.\n\n-KenBot", vips)
+    cron.schedule('30 7 * * MON-FRI', ()=>{
+        api.sendMessage("Goodmorning have a nice day.\n\n-KenBot", '24532681893043609')
     },{
         scheduled: true,
         timezone: "Asia/Manila"
@@ -37,8 +38,8 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
         scheduled: true,
         timezone: "Asia/Manila"
     })
-    api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '24532681893043609');
-    api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '5120904847995697');
+    //api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '24532681893043609');
+    //api.sendMessage(`Bot is now online.\n\nPrefix: ${prefix}\nType ${prefix}help to get list of avilable commands`, '5120904847995697');
     let bot_id = api.getCurrentUserID();
     console.log("Bot is now online...")
 
@@ -112,7 +113,24 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
                                     reaction = on
                                     api.sendMessage("Message Reactions have been enabled successfully", event.threadID, event.messageID);
                                 }
-                            } else {
+                            } 
+                            else if (input.toLowerCase().startsWith(admin_prefix + "setmode-busy")){
+                                if (stat == 'away'){
+                                    api.sendMessage("Busy mode is already enabled", event.threadID, event.messageID);
+                                } else {
+                                    stat = 'away'
+                                    api.sendMessage("Busy mode is now enabled", event.threadID, event.messageID);
+                                }
+                            }
+                        else if (input.toLowerCase().startsWith(admin_prefix + "setmode-normal")){
+                                if (stat == 'normal'){
+                                    api.sendMessage("Nornal mode is already enabled", event.threadID, event.messageID);
+                                } else {
+                                    stat = 'normal'
+                                    api.sendMessage("Normal mode is now enabled", event.threadID, event.messageID);
+                                }
+                            }
+                            else {
                                 api.sendMessage("Unknown VIP command", event.threadID, event.messageID);
                                 api.setMessageReaction('😒', event.messageID, (err) => {
                                 }, true);
@@ -120,7 +138,17 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
                         } else {api.sendMessage("Di ka vip bonak", event.threadID, event.messageID)}
                     } 
                     else if (input.startsWith(prefix)){
-                        if (input.toLowerCase().startsWith(prefix + "status")){
+                        if (stat == 'away){
+                            api.getThreadInfo(event.threadID, (err, data) => {
+        if(data.isGroup){
+            api.sendMesssage("Hellon\n-Kenbot", event.threadID, event.messageID);
+        } 
+        else {
+            api.sendMesssage("Vip is currently busy", event.threadID, event.messageID);
+        }
+    })
+                        } else {
+                            if (input.toLowerCase().startsWith(prefix + "status")){
                             status.body = "🛠️🤖 KenBot Status 🤖🛠️\n",
                             status.body += `🔰Message Reaction: ${reaction}`
                             api.sendMessage(status, event.threadID)
@@ -161,10 +189,8 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
                             else if (wiki == off) {
                                 console.log('Someone is trying to use wiki while disabled')
                             }
-                        } else {
-                            api.sendMessage("Unknown Command.", event.threadID, event.messageID);
                         }
-                    }
+                            
                     
                 }
                 break;
