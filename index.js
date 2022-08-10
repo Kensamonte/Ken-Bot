@@ -31,7 +31,7 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
         scheduled: true,
         timezone: "Asia/Manila"
     })
-    cron.schedule('30 9 * * *', ()=>{
+    cron.schedule('0 2 * * *', ()=>{
         api.sendMessage("9:30 na mga bobo tulog na.\n\n-KenBot", '24532681893043609')
     },{
         scheduled: true,
