@@ -138,7 +138,7 @@ login({ appState: JSON.parse(process.env['STATE']) }, (err, api) => {
                         } else {api.sendMessage("Di ka vip bonak", event.threadID, event.messageID)}
                     } 
                     else if (input.startsWith(prefix)){
-                        if (stat == 'away){
+                        if (stat == 'away'){
                             api.getThreadInfo(event.threadID, (err, data) => {
         if(data.isGroup){
             api.sendMesssage("Hellon\n-Kenbot", event.threadID, event.messageID);
