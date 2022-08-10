@@ -3,7 +3,8 @@ const http = require('https');
 const login = require("fca-unofficial");
 const axios = require("axios");
 const cron = require('node-cron');
-const YoutubeMusicAPI = require('youtube-music-api')
+const YoutubeMusicAPI = require('youtube-music-api');
+const { keep_alive } = require("./keep_alive")
 
 
 let vips = ['100002428934209'];
